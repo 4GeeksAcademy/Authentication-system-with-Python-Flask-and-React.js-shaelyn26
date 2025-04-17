@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
+	const navigate = useNavigate()
 
 	const { store, dispatch } = useGlobalReducer()
-	const[email, setEmail] = useState("")
-	const[password, setPassword] = useState("")
+	const [email, setEmail] = useState("")
+	const [password, setPassword] = useState("")
 
 	const loadMessage = async () => {
 		try {
@@ -29,38 +31,85 @@ export const Home = () => {
 		}
 
 	}
-	const login = ()=>{
-		const option={
+	const login = () => {
+		const option = {
 			method: "POST",
-			headers:{
+			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
 				"email": email,
 				"password": password
-			  })
+			})
 		}
-		fetch(import.meta.env.VITE_BACKEND_URL+"api/login", option)
-		.then((resp)=>{
-			if(resp.ok==false){
-				console.log("IT FAILED!")
-		} 
-		else{
-			getData()
+		fetch(import.meta.env.VITE_BACKEND_URL + "api/login", option)
+			.then((resp) => {
+				return resp.json()
+			})
+
+			.then((data) => {
+				console.log(data.token_value, "this is my agenda")
+				dispatch({ type: "updateToken", payload: data.token_value })
+				navigate("/demo")
+			})
+	}
+	// updates token based off this dispatch & token received to update store variable
+
+	const signup = () => {
+		const option = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				"email": email,
+				"password": password
+			})
 		}
-		return resp.json()
-		})
-		.then((data)=> console.log(data, "this is my agenda")) 
-		}
+		fetch(import.meta.env.VITE_BACKEND_URL + "api/signup", option)
+			.then((resp) => {
+				return resp.json()
+			})
+
+			.then((data) => {
+				console.log(data.token_value, "this is my agenda")
+				dispatch({ type: "updateToken", payload: data.token_value })
+			})
+	}
+// <-- 'data.token_value' is the actual info recieved from the Return jsonify, 
+// which received info from its 'route' that the fetch url sent. ALL info was received 
+// from the information put in the input.
+	
 
 	useEffect(() => {
 		loadMessage()
+		sessionStorage.setItem("testItem", "test1")	
 	}, [])
+	const testSession = sessionStorage.getItem("testItem")
 
 	return (
 		<div>
-			<input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
-			<input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Password" />
+			<input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Login Email" />
+			<input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Login Password" />
+			<button onClick={() => login()}> Login </button>
+
+			<div>
+			<input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="ignup Email" />
+			<input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Signup Password" />
+			<button onClick={() => signup()}> Sign Up </button> 
+		{/* <-- for the 'signup button' it's essentially the same but will 
+		need 2 pairs of useStates to differentiate which input you'll be using. OR
+		2 components for each one (log in compo & sign up compo) */}
+			
+			<button onClick={() => sessionStorage.setItem("testItem", "test2")}> Testing </button> 
+			Here is the test : {testSession}
+			</div>
 		</div>
 	);
 }; 
+
+// / how to log in and go to a different page
+// 1. go to Routes.jsx
+// 2. add navigate PATH TO login in then response after dispatch
+// 3. add a "private page" with the instructions above
+// 4. login, refresh as it stays logged in with sessions

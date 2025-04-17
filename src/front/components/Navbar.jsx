@@ -3,18 +3,31 @@ import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
 
 export const Navbar = () => {
-	
+
 	const { store, dispatch } = useGlobalReducer()
 
 	return (
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
 				<div>
-					{store.token != null ? "Youre're logged in!!" : "You're not logged in!"}
-				
+					{store.token != null ?
+						<div>
+							Bank Account 7632103882
+						</div>
+						: "You're not logged in!"}
+
+					<div>
+						<button onClick={() =>
+							dispatch({ type: "updateToken", payload: null })
+						} className="logout">
+							Log Out
+						</button>
+
+					</div>
+
 				</div>
-				
-				
+
+
 				<Link to="/">
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>

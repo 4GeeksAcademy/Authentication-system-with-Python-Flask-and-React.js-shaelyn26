@@ -20,7 +20,7 @@ def handle_login():
     password_value = request.json.get("password")
     find_user = User.query.filter_by(email = email_value).first()
 
-    if not check_password_hash(find_user.password,password_value):                    # <--this will return a true or false about password that was entered-->
+    if not check_password_hash(find_user.password,password_value):                # <--this will return a true or false about password that was entered-->
 
         return jsonify("login failed!")
 

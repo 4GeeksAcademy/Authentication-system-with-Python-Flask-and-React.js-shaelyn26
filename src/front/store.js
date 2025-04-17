@@ -1,7 +1,9 @@
 export const initialStore=()=>{
   return{
-    token: null
-
+    token: null         // <-- difference btw null: use to make a condition & []: this'll be the empty array-->
+  
+  
+  
   }
 }
 
