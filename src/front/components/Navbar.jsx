@@ -10,24 +10,24 @@ export const Navbar = () => {
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
 				<div>
-					{store.token != null ?
+					{store.token != null ?    
 						<div>
 							Bank Account 7632103882
 						</div>
 						: "You're not logged in!"}
-
+												{/* lines 13 to 26 doesn't make sense in live page */}
 					<div>
 						<button onClick={() =>
 							dispatch({ type: "updateToken", payload: null })
 						} className="logout">
 							Log Out
 						</button>
-
+								{/* once this button is clicked, nothing happens.. need to redirect button to home page "<Link>" */}
 					</div>
 
 				</div>
 
-
+							{/* this goes to the home page */}
 				<Link to="/">
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>

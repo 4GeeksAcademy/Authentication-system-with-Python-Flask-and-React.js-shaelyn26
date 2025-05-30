@@ -16,8 +16,8 @@ CORS(api)
 
 @api.route('/login', methods=['POST'])
 def handle_login():
-    email_value = request.json.get("email")
-    password_value = request.json.get("password")
+    email_value = request.get_json("email")
+    password_value = request.get_json("password")
     find_user = User.query.filter_by(email = email_value).first()
 
     if not check_password_hash(find_user.password,password_value):                # <--this will return a true or false about password that was entered-->
@@ -32,16 +32,19 @@ def handle_login():
 
 @api.route('/signup', methods=['POST'])
 def sign_up():
-    email_value = request.json.get("email")
-    password_value = request.json.get("password")
-    find_user = User.query.filter_by(email = email_value).first()  
+    email = request.get_json("email")
+    password = request.get_json("password")
+    if User.query.filter_by(email = email).first():
+        return jsonify({"message" : "email already exists"}), 409   
+    hashed_password=generate_password_hash(password)
+
 
     new_user = User(
-        email = email_value,
-        password = generate_password_hash(password_value)
+        email=email,
+        password=hashed_password
     )
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify("user created"), 200
+    return jsonify({"user created"}), 200
     

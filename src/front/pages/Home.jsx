@@ -8,29 +8,31 @@ export const Home = () => {
 
 	const { store, dispatch } = useGlobalReducer()
 	const [email, setEmail] = useState("")
+	const [loginEmail, setLoginEmail] = useState("")
 	const [password, setPassword] = useState("")
+	const [loginPassword, setLoginPassword] = useState("")
 
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
+	// const loadMessage = async () => {
+	// 	try {
+	// 		const backendUrl = import.meta.env.VITE_BACKEND_URL
 
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
+	// 		if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
 
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
+	// 		const response = await fetch(backendUrl + "/api/hello")
+	// 		const data = await response.json()
 
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
+	// 		if (response.ok) dispatch({ type: "set_hello", payload: data.message })
 
-			return data
+	// 		return data
 
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
-		}
+	// 	} catch (error) {
+	// 		if (error.message) throw new Error(
+	// 			`Could not fetch the message from the backend.
+	// 			Please check if the backend is running and the backend port is public.`
+	// 		);
+	// 	}
 
-	}
+	// }
 	const login = () => {
 		const option = {
 			method: "POST",
@@ -42,7 +44,7 @@ export const Home = () => {
 				"password": password
 			})
 		}
-		fetch(import.meta.env.VITE_BACKEND_URL + "api/login", option)
+		fetch(import.meta.env.VITE_BACKEND_URL + "/login", option)
 			.then((resp) => {
 				return resp.json()
 			})
@@ -55,18 +57,17 @@ export const Home = () => {
 	}
 	// updates token based off this dispatch & token received to update store variable
 
-	const signup = () => {
+	const signup =async (email,password) => {
 		const option = {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				"email": email,
-				"password": password
+				email, password
 			})
 		}
-		fetch(import.meta.env.VITE_BACKEND_URL + "api/signup", option)
+		await fetch(import.meta.env.VITE_BACKEND_URL + "/signup", option)
 			.then((resp) => {
 				return resp.json()
 			})
@@ -76,37 +77,42 @@ export const Home = () => {
 				dispatch({ type: "updateToken", payload: data.token_value })
 			})
 	}
-// <-- 'data.token_value' is the actual info recieved from the Return jsonify, 
-// which received info from its 'route' that the fetch url sent. ALL info was received 
-// from the information put in the input.
-	
+	// <-- 'data.token_value' is the actual info recieved from the Return jsonify, 
+	// which received info from its 'route' that the fetch url sent. ALL info was received 
+	// from the information put in the input.
 
-	useEffect(() => {
-		loadMessage()
-		sessionStorage.setItem("testItem", "test1")	
-	}, [])
-	const testSession = sessionStorage.getItem("testItem")
+
+	// useEffect(() => {
+	// 	loadMessage()
+	// 	sessionStorage.setItem("testItem", "test1")
+	// }, [])
+	// const testSession = sessionStorage.getItem("testItem")
 
 	return (
 		<div>
-			<input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Login Email" />
-			<input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Login Password" />
+			<input onChange={(e) => setLoginEmail(e.target.value)} value={loginEmail} type="text" placeholder="Login Email" />
+
+			<input onChange={(e) => setLoginPassword(e.target.value)} value={loginPassword} type="text" placeholder="Login Password" />
+
 			<button onClick={() => login()}> Login </button>
+			{/* both inputs type at the same time.. FIND ISSUE */}
 
 			<div>
-			<input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="ignup Email" />
-			<input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Signup Password" />
-			<button onClick={() => signup()}> Sign Up </button> 
-		{/* <-- for the 'signup button' it's essentially the same but will 
+				<input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Signup Email" />
+
+				<input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Signup Password" />
+
+				<button onClick={() => signup(email,password)}> Sign Up </button>
+				{/* <-- for the 'signup button' it's essentially the same but will 
 		need 2 pairs of useStates to differentiate which input you'll be using. OR
 		2 components for each one (log in compo & sign up compo) */}
-			
-			<button onClick={() => sessionStorage.setItem("testItem", "test2")}> Testing </button> 
-			Here is the test : {testSession}
+
+				{/* <button onClick={() => sessionStorage.setItem("testItem", "test2")}> Testing </button>
+				Here is the test : {testSession} */}
 			</div>
 		</div>
 	);
-}; 
+};
 
 // / how to log in and go to a different page
 // 1. go to Routes.jsx
