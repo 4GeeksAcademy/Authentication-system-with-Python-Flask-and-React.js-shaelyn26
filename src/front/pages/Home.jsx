@@ -40,11 +40,11 @@ export const Home = () => {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				"email": email,
-				"password": password
+				"email":loginEmail,
+				"password": loginPassword
 			})
 		}
-		fetch(import.meta.env.VITE_BACKEND_URL + "/login", option)
+		fetch(import.meta.env.VITE_BACKEND_URL + "/api/login", option)
 			.then((resp) => {
 				return resp.json()
 			})
