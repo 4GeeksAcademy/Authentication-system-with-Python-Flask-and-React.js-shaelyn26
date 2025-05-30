@@ -34,7 +34,9 @@ def handle_login():
 def sign_up():
     email = request.json.get("email")
     password = request.json.get("password")
-    if User.query.filter_by(email=email).first():
+    user =User.query.filter_by(email=email).first() 
+    print(user,"user!!!!!!!!!!!")
+    if user:
         return jsonify({"message": "email already exists"}), 409
     hashed_password = generate_password_hash(password)
 
@@ -45,4 +47,4 @@ def sign_up():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"user created"}), 200
+    return jsonify({"message":"user created"}), 200
