@@ -64,10 +64,10 @@ export const Home = () => {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				email, password
+				email:email, password:password
 			})
 		}
-		await fetch(import.meta.env.VITE_BACKEND_URL + "/signup", option)
+		await fetch(import.meta.env.VITE_BACKEND_URL + "/api/signup", option)
 			.then((resp) => {
 				return resp.json()
 			})
