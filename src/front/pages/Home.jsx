@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 
-export const Home = ()=> {
+export const Home = () => {
 
-	const {store, dispatch} = useGlobalReducer()
+	const { store, dispatch } = useGlobalReducer()
 
-const loadMessage = async () => {
+	const loadMessage = async () => {
 		try {
 			const backendUrl = import.meta.env.VITE_BACKEND_URL
 
