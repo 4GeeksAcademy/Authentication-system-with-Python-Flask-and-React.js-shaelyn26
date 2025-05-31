@@ -41,10 +41,12 @@ export const Home = () => {
 			},
 			body: JSON.stringify({
 				"email": email,
-				"password": password
+				"password": password,
+				"email": loginEmail,
+				"password": loginPassword
 			})
 		}
-		fetch(import.meta.env.VITE_BACKEND_URL + "/login", option)
+		fetch(import.meta.env.VITE_BACKEND_URL + "/api/login", option)
 			.then((resp) => {
 				return resp.json()
 			})
@@ -64,10 +66,10 @@ export const Home = () => {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				email, password
+				email:email, password:password
 			})
 		}
-		await fetch(import.meta.env.VITE_BACKEND_URL + "/signup", option)
+		await fetch(import.meta.env.VITE_BACKEND_URL + "/api/signup", option)
 			.then((resp) => {
 				return resp.json()
 			})

@@ -16,25 +16,26 @@ CORS(api)
 
 @api.route('/login', methods=['POST'])
 def handle_login():
-    email_value = request.get_json("email")
-    password_value = request.get_json("password")
-    find_user = User.query.filter_by(email = email_value).first()
+    email_value = request.json.get("email")
+    password_value = request.json.get("password")
+    find_user = User.query.filter_by(email=email_value).first()
 
     if not check_password_hash(find_user.password,password_value):                # <--this will return a true or false about password that was entered-->
 
         return jsonify("login failed!")
 
-    token = create_access_token(identity = email_value)
+    token = create_access_token(identity=email_value)
          # ^--this creates 'token' for you,--->  <--- the [identity=email] gives access to the 'User'-->
 
-    return jsonify(token_value = token), 200
+    return jsonify(token_value=token), 200
 
 
 @api.route('/signup', methods=['POST'])
 def sign_up():
-    email = request.get_json("email")
-    password = request.get_json("password")
-    if User.query.filter_by(email = email).first():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    user = User.query.filter_by(email=email).first()
+    if user:
         return jsonify({"message" : "email already exists"}), 409   
     hashed_password=generate_password_hash(password)
 
@@ -46,5 +47,5 @@ def sign_up():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"user created"}), 200
+    return jsonify({"message":"user created"}), 200
     
