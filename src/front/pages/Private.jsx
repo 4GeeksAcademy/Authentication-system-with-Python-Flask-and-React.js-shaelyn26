@@ -1,0 +1,67 @@
+import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
+
+export const Private = () => {
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
+
+    const Private = () => {
+        useEffect(() => {
+            const token = sessionStorage.getItem("token");
+            // line13-14--> useEffect runs after the component render and recieves a 'key'(token) from the browsers' sessionStorage.
+            // sessionStorage --> duration of browsers session
+
+            if (!token) {
+                navigate("/home");                      //[ navigate() ] allows to redirect the route of page
+                return;
+            }
+            fetch(`${"http://localhost:3001"}/api/private`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+            )
+                .then((response) => {
+                    if (!response.ok) {
+                        return response.json().then((data) => {
+                            throw new Error(data.message || "Restricted Access!");
+                        });
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    setUserData(data.message);                  // COME BACK TO THIS.. CHANGE TO LOADING.MESSAGE 
+                    setLoading(false);                  // this tells the page it finished 'loading'
+                    console.log(data, "Private Page!");
+                })
+                .catch((err) => {
+                    setError(error.message)
+                    console.log(err, "Message Error");
+                    navigate("/home");
+                });
+        }, [navigate, backendUrl]);
+
+        if (loading) return <p>Loading. . .</p>
+
+        return (
+            <div>
+                <p>Private Page!</p>
+                <div>
+                    <Link to="/home">
+                        <button onClick={() =>
+                            dispatch({ type: "updateToken", payload: null })
+                        } className="logout">
+                            Log Out
+                        </button>
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+};
+
+{/* // export default Private; */ }

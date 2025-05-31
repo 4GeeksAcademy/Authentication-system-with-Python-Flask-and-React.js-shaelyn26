@@ -8,14 +8,8 @@ export const Navbar = () => {
 
 	return (
 		<nav className="navbar navbar-light bg-light">
-			<div className="container">
+			{/* <div className="container">
 				<div>
-					{store.token != null ?    
-						<div>
-							Bank Account 7632103882
-						</div>
-						: "You're not logged in!"}
-												{/* lines 13 to 26 doesn't make sense in live page */}
 					<div>
 						<Link to="/">
 						<button onClick={() =>
@@ -23,22 +17,22 @@ export const Navbar = () => {
 						} className="logout">
 							Log Out
 						</button>
-						</Link>
+						</Link> */}
 								{/* once this button is clicked, nothing happens.. need to redirect button to home page "<Link>" */}
-					</div>
+					{/* </div>
 
-				</div>
+				</div> */}
 
 							{/* this goes to the home page */}
-				<Link to="/">
+				{/* <Link to="/">
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-				</Link>
-				<div className="ml-auto">
+				</Link> */}
+				{/* <div className="ml-auto">
 					<Link to="/demo">
 						<button className="btn btn-primary">Check the Context in action</button>
 					</Link>
-				</div>
-			</div>
+				</div> */}
+			{/* </div> */}
 		</nav>
 	);
 };
