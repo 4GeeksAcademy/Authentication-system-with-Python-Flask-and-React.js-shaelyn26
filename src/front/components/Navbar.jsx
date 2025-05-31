@@ -17,11 +17,13 @@ export const Navbar = () => {
 						: "You're not logged in!"}
 												{/* lines 13 to 26 doesn't make sense in live page */}
 					<div>
+						<Link to="/">
 						<button onClick={() =>
 							dispatch({ type: "updateToken", payload: null })
 						} className="logout">
 							Log Out
 						</button>
+						</Link>
 								{/* once this button is clicked, nothing happens.. need to redirect button to home page "<Link>" */}
 					</div>
 
