@@ -33,16 +33,26 @@ export const Login = () => {
                 dispatch({ type: "updateToken", payload: data.token_value });
                 navigate("/demo")
             })
-        }
+    }
     return (
         <div className="container">
-            <div>
-                <input onChange={(e) => setLoginEmail(e.target.value)} value={loginEmail} type="text" placeholder="Login Email" />
-
-                <input onChange={(e) => setLoginPassword(e.target.value)} value={loginPassword} type="text" placeholder="Login Password" />
-
-                <button onClick={() => login()}> Login </button>
+            <div className="text-center mb-5">
+                <h1>Welcome to the Login!</h1>
             </div>
+            <form>
+                <div class="m-3 text-center">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input onChange={(e) => setLoginEmail(e.target.value)} value={loginEmail} type="text" placeholder="Login Email" />
+                </div>
+                <div class="m-3 text-center">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input onChange={(e) => setLoginPassword(e.target.value)} value={loginPassword} type="text" placeholder="Login Password" />
+                </div>
+                <div class="m-3 text-center">
+                    <button
+                        onClick={() => login()}> Login </button>
+                </div>
+            </form>
         </div>
     );
 };
