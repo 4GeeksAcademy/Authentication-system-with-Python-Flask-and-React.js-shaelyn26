@@ -21,9 +21,9 @@ export const Login = () => {
                 // "password": password,
                 "email": loginEmail,
                 "password": loginPassword
-            });
-        };
-        fetch(import.meta.env.VITE_BACKEND_URL + "/api/login", option);
+            })
+        }
+        fetch(import.meta.env.VITE_BACKEND_URL + "/api/login", option)
             .then((resp) => {
                 return resp.json()
             })
@@ -32,8 +32,8 @@ export const Login = () => {
                 console.log(data.token_value, "this is my agenda")
                 dispatch({ type: "updateToken", payload: data.token_value });
                 navigate("/demo")
-            });
-    };
+            })
+        }
     return (
         <div className="container">
             <div>

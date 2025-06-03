@@ -10,7 +10,6 @@ export const Signup = () => {
     // const [loginEmail, setLoginEmail] = useState("");
     // const [loginPassword, setLoginPassword] = useState("");
 
-
     const signup = async (email, password) => {
         const option = {
             method: "POST",
@@ -21,38 +20,40 @@ export const Signup = () => {
                 email: email, password: password
             })
         }
-        await fetch(import.meta.env.VITE_BACKEND_URL + "/api/signup", option);
+        await fetch(import.meta.env.VITE_BACKEND_URL + "/api/signup", option)
             .then((resp) => {
                 return resp.json();
             })
-
             .then((data) => {
-                console.log(data.token_value, "this is my agenda");
-                dispatch({ type: "updateToken", payload: data.token_value });
+                console.log(data.token_value, "this is my agenda")
+                dispatch({ type: "updateToken", payload: data.token_value })
             })
-    };
+    }
     // <-- 'data.token_value' is the actual info recieved from the Return jsonify, 
     // which received info from its 'route' that the fetch url sent. ALL info was received 
     // from the information put in the input.
 
-
-    // useEffect(() => {
-    //     loadMessage()
-    //     sessionStorage.setItem("testItem", "test1")
-    // }, []); 
-                // dont know if i still need this ^^^
-
-
     return (
         <div classsName="container">
-            <div>
-                <input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Signup Email" />
-
-                <input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Signup Password" />
-
-                <button onClick={() => signup(email, password)}> Sign Up </button>
-
+            <div className="text-center mb-5">
+                <h1>Welcome to the Signup!</h1>
             </div>
+            <form>
+                <div class="m-3 text-center">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Signup Email" />
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="m-3 text-center">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Signup Password" />
+                </div>
+                <div class="m-3 text-center">
+                    <button
+                        // className="dflex"
+                        onClick={() => signup(email, password)}> Sign Up </button>
+                </div>
+            </form>
         </div>
     );
 };
