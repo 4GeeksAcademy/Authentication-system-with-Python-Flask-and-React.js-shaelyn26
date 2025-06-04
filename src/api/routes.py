@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
 api = Blueprint('api', __name__)
 
@@ -20,14 +20,14 @@ def handle_login():
     find_user = User.query.filter_by(email=email_value).first()
 
     # <--this will return a true or false about password that was entered-->
-    if not check_password_hash(find_user.password, password_value):
+    #if not check_password_hash(find_user.password, password_value):
+    if not find_user:
+        return jsonify({"message":"login failed!"}), 401
 
-        return jsonify("login failed!")
-
-    token = create_access_token(identity=email_value)
+    token_value=create_access_token(identity=str(find_user.id))
          # ^--this creates 'token' for you,--->  <--- the [identity=email] gives access to the 'User'-->
 
-    return jsonify(token_value=token), 200
+    return jsonify(token_value=token_value), 200
 
 
 @api.route('/signup', methods=['POST'])
@@ -49,3 +49,13 @@ def sign_up():
 
     return jsonify({"message":"user created"}), 200
     
+@api.route('/private', methods=['GET'])
+@jwt_required()
+def handle_protected():
+    from flask_jwt_required import get_jwt_identity
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+    if user:
+        return jsonify(logged_in_as=user.email,message="Access Granted"), 200
+    else:
+        return jsonify({"message":"user not found"}), 404
