@@ -19,6 +19,9 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+app.config["JWT_SECRET_KEY"] = os.environ.get('"FLASK_APP_KEY"')
+# Initializes the Flask-JWT-Extended extension, enabling JWT features like token creation and route protection.
 jwt = JWTManager(app)
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
