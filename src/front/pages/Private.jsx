@@ -35,9 +35,9 @@ export const Private = () => {
                 return response.json();
             })
             .then(data => {
-                setUserData(data.message);                  // COME BACK TO THIS.. CHANGE TO LOADING.MESSAGE 
+                setUserData(data.message);
                 setLoading(false);                  // this tells the page it finished 'loading'
-                console.log(data, "Private Page!");
+                console.log(data.message, "Private Page!");
             })
             .catch((err) => {
                 setError(error.message)
@@ -49,10 +49,17 @@ export const Private = () => {
     if (loading) return <p>Loading. . .</p>
 
     return (
-        <div>
-            <p>Private Page!</p>
-            <div>
-                <p>text text text text</p>
+        <div className="text-center">
+            <h1>Private </h1>
+            <div className="alert alert-danger m-3" role="alert">
+                <p>Authorized User Only!</p>
+            </div>
+            <div className="container">
+
+                {/* testing */}
+                <p> {userData.email} is logged in</p>
+                {/* testing */}
+
             </div>
             <div>
                 <Link to="/">
@@ -67,5 +74,3 @@ export const Private = () => {
     );
 
 };
-
-{/* // export default Private; */ }

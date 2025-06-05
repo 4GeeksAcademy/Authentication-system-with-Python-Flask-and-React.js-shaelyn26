@@ -35,26 +35,26 @@ export const Login = () => {
 
         return { data, status: response.status };
     };
-    
-return (
-    <div className="container">
-        <div className="text-center mb-5">
-            <h1>Welcome to the Login!</h1>
+
+    return (
+        <div className="container">
+            <div className="text-center mb-5">
+                <h1>Welcome to the Login!</h1>
+            </div>
+            <form>
+                <div className="m-3 text-center">
+                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+                    <input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
+                </div>
+                <div className="m-3 text-center">
+                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+                    <input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Login Password" />
+                </div>
+                <div className="m-3 text-center">
+                    <button
+                        onClick={(e) => { e.preventDefault(); login(email, password) }}> Login </button>
+                </div>
+            </form>
         </div>
-        <form>
-            <div className="m-3 text-center">
-                <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                <input onChange={(e) => setEmail(e.target.value)} value={email} type="text" placeholder="Email" />
-            </div>
-            <div className="m-3 text-center">
-                <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                <input onChange={(e) => setPassword(e.target.value)} value={password} type="text" placeholder="Login Password" />
-            </div>
-            <div className="m-3 text-center">
-                <button
-                    onClick={(e) => { e.preventDefault(); login(email, password) }}> Login </button>
-            </div>
-        </form>
-    </div>
-);
+    );
 };

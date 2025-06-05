@@ -31,16 +31,22 @@ export const Home = () => {
 	}, [])
 	return (
 		<div className="text-center mt-5">
-			<Link to={"/login"}><button>Go to Login</button></Link>
-			<Link to={"/signup"}><button>Go to Sign Up</button></Link>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
+			<div className="container">
+				<h1>Coder's Blog</h1>
+				<div>
+					<img src="https://i.pinimg.com/736x/ca/da/aa/cadaaa748a278eb49e4f3a2c756ac637.jpg" />
+				</div>
+				<Link to={"/login"}><button>Go to Login</button></Link>
+				<Link to={"/signup"}><button>Go to Sign Up</button></Link>
+				{/* <div className="alert alert-info">
+					{store.message ? (
+						<span>{store.message}</span>
+					) : (
+						<span className="text-danger">
+							Loading message from the backend (make sure your python 🐍 backend is running)...
+						</span>
+					)}
+				</div> */}
 			</div>
 		</div>
 	);

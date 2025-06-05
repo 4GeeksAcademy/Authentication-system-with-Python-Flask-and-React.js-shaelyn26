@@ -20,12 +20,12 @@ def handle_login():
     find_user = User.query.filter_by(email=email_value).first()
 
     # <--this will return a true or false about password that was entered-->
-    #if not check_password_hash(find_user.password, password_value):
+    # if not check_password_hash(find_user.password, password_value):
     if not find_user:
-        return jsonify({"message":"login failed!"}), 401
+        return jsonify({"message": "login failed!"}), 401
 
-    token_value=create_access_token(identity=str(find_user.id))
-         # ^--this creates 'token' for you,--->  <--- the [identity=email] gives access to the 'User'-->
+    token_value = create_access_token(identity=str(find_user.id))
+    # ^--this creates 'token' for you,--->  <--- the [identity=email] gives access to the 'User'-->
 
     return jsonify(token_value=token_value), 200
 
@@ -34,11 +34,10 @@ def handle_login():
 def sign_up():
     email = request.json.get("email")
     password = request.json.get("password")
-    user =User.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=email).first()
     if user:
-        return jsonify({"message" : "email already exists"}), 409   
-    hashed_password=generate_password_hash(password)
-
+        return jsonify({"message": "email already exists"}), 409
+    hashed_password = generate_password_hash(password)
 
     new_user = User(
         email=email,
@@ -47,15 +46,16 @@ def sign_up():
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({"message":"user created"}), 200
-    
+    return jsonify({"message": "user created"}), 200
+
+
 @api.route('/private', methods=['GET'])
 @jwt_required()
 def handle_protected():
-    from flask_jwt_required import get_jwt_identity
+    from flask_jwt_extended import get_jwt_identity
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
     if user:
-        return jsonify(logged_in_as=user.email,message="Access Granted"), 200
+        return jsonify(logged_in_as=user.email, message="Access Granted"), 200
     else:
-        return jsonify({"message":"user not found"}), 404
+        return jsonify({"message": "user not found"}), 404
