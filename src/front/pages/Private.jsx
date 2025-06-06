@@ -51,16 +51,16 @@ export const Private = () => {
     return (
         <div className="text-center">
             <h1>Private </h1>
+            
             <div className="alert alert-danger m-3" role="alert">
                 <p>Authorized User Only!</p>
             </div>
+           
             <div className="container">
-
-                {/* testing */}
-                <p> {userData} is logged in.</p>
-                {/* testing */}
-
+                <p>Welcome {userData} to your profile</p>
+                <img src="https://i.pinimg.com/736x/56/2e/97/562e97e2215837931e9853bf5d4145cc.jpg"/>
             </div>
+           
             <div>
                 <Link to="/">
                     <button onClick={() =>
