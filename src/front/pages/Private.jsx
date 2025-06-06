@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export const Private = () => {
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ export const Private = () => {
                 return response.json();
             })
             .then(data => {
-                setUserData(data.message);
+                setUserData(data.logged_in_as);
                 setLoading(false);                  // this tells the page it finished 'loading'
                 console.log(data.message, "Private Page!");
             })
@@ -57,7 +57,7 @@ export const Private = () => {
             <div className="container">
 
                 {/* testing */}
-                <p> {userData.email} is logged in</p>
+                <p> {userData} is logged in.</p>
                 {/* testing */}
 
             </div>
